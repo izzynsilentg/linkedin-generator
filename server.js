@@ -46,24 +46,24 @@ app.post("/generate", async (req, res) => {
     // Make canvas transparent
     ctx.clearRect(0, 0, templateWidth, templateHeight);
     
-    // Set up headline
+    // Set up headline - MOVED DOWN
     ctx.fillStyle = '#273039';
-    ctx.font = 'bold 36px Arial, sans-serif';
+    ctx.font = 'bold 38px Arial, sans-serif';
     ctx.textAlign = 'left';
     
     const headlineX = 50;
-    const headlineY = 170;
+    const headlineY = 220; // Moved down from 170 to 220
     
     // Wrap and draw headline
     const headlineLines = wrapText(ctx, headline || '', templateWidth - 100);
     headlineLines.forEach((line, i) => {
-      ctx.fillText(line, headlineX, headlineY + (i * 45));
+      ctx.fillText(line, headlineX, headlineY + (i * 50));
     });
     
-    // Set up body text
-    ctx.font = '22px Arial, sans-serif';
+    // Set up body text - LARGER SIZE
+    ctx.font = '26px Arial, sans-serif'; // Increased from 22px to 26px
     const bodyX = 50;
-    let bodyY = headlineY + (headlineLines.length * 45) + 40;
+    let bodyY = headlineY + (headlineLines.length * 50) + 50;
     
     // Split body into paragraphs and wrap each
     const paragraphs = (body || '').split('\n\n');
@@ -74,15 +74,15 @@ app.post("/generate", async (req, res) => {
         
         lines.forEach((line, i) => {
           // Check if we're running out of space (leave room for footer)
-          if (bodyY < templateHeight - 200) {
+          if (bodyY < templateHeight - 180) {
             ctx.fillText(line, bodyX, bodyY);
-            bodyY += 32; // Line height
+            bodyY += 38; // Increased from 32 to 38 for better spacing
           }
         });
         
         // Add paragraph spacing
         if (pIndex < paragraphs.length - 1) {
-          bodyY += 15;
+          bodyY += 20; // Increased from 15 to 20
         }
       }
     });
@@ -117,7 +117,7 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`Image generator running on port ${PORT}`);
 });
