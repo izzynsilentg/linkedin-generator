@@ -46,26 +46,27 @@ app.post("/generate", async (req, res) => {
     // Make canvas transparent
     ctx.clearRect(0, 0, templateWidth, templateHeight);
     
-    // Set up headline - MOVED DOWN
+    // === HEADLINE - CENTERED AND MOVED DOWN ===
     ctx.fillStyle = '#273039';
     ctx.font = 'bold 38px Arial, sans-serif';
-    ctx.textAlign = 'left';
+    ctx.textAlign = 'center'; // CHANGED to center
     
-    const headlineX = 50;
-    const headlineY = 220; // Moved down from 170 to 220
+    const headlineY = 250; // MOVED DOWN from 220 to 250
+    const centerX = templateWidth / 2; // Center point
     
-    // Wrap and draw headline
+    // Wrap and draw headline (centered)
     const headlineLines = wrapText(ctx, headline || '', templateWidth - 100);
     headlineLines.forEach((line, i) => {
-      ctx.fillText(line, headlineX, headlineY + (i * 50));
+      ctx.fillText(line, centerX, headlineY + (i * 50));
     });
     
-    // Set up body text - LARGER SIZE
-    ctx.font = '26px Arial, sans-serif'; // Increased from 22px to 26px
+    // === BODY TEXT - WITH PROPER PARAGRAPH SPACING ===
+    ctx.font = '26px Arial, sans-serif';
+    ctx.textAlign = 'left'; // Body text is left-aligned
     const bodyX = 50;
-    let bodyY = headlineY + (headlineLines.length * 50) + 50;
+    let bodyY = headlineY + (headlineLines.length * 50) + 60; // Extra space after headline
     
-    // Split body into paragraphs and wrap each
+    // Split body into paragraphs
     const paragraphs = (body || '').split('\n\n');
     
     paragraphs.forEach((paragraph, pIndex) => {
@@ -76,13 +77,13 @@ app.post("/generate", async (req, res) => {
           // Check if we're running out of space (leave room for footer)
           if (bodyY < templateHeight - 180) {
             ctx.fillText(line, bodyX, bodyY);
-            bodyY += 38; // Increased from 32 to 38 for better spacing
+            bodyY += 38; // Line spacing within paragraph
           }
         });
         
-        // Add paragraph spacing
+        // Add MORE spacing between paragraphs
         if (pIndex < paragraphs.length - 1) {
-          bodyY += 20; // Increased from 15 to 20
+          bodyY += 35; // INCREASED from 20 to 35 for clear paragraph breaks
         }
       }
     });
