@@ -1,0 +1,14 @@
+{
+  "name": "linkedin-image-generator",
+  "version": "1.0.0",
+  "description": "Generate LinkedIn post images with text overlay",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "sharp": "^0.33.0",
+    "canvas": "^2.11.2"
+  }
+}
